@@ -22,7 +22,7 @@ def main():
 
     scale = min(scale_w, scale_h)
 
-    # Nowe wymiary gry po przeskalowaniu
+    # Nowe wymiary gry po przeskalowaniu okna
     new_width = int(config.SCREEN_WIDTH * scale)
     new_height = int(config.SCREEN_HEIGHT * scale)
 
