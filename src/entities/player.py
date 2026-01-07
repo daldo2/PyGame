@@ -97,6 +97,10 @@ class Player:
         self.apply_gravity(dt)
         self.rect, collisions = move_and_slide(self.rect, self.velocity, tiles, dt)
 
+        if collisions['right'] or collisions['left']:
+            self.is_standing = True
+            self.running = False
+
         if collisions['bottom']:
             self.is_grounded = True
             self.velocity.y = 0
