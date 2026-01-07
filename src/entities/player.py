@@ -230,7 +230,7 @@ class Player:
                 self.animation_timer = 0
                 if self.frame_index < len(self.frames_run) - 1:
                     self.frame_index += 1
-                elif self.frame_index >= len(self.frames_run):
+                else :
                     self.frame_index = 0
 
             if self.frame_index >= len(self.frames_run): self.frame_index = 0
@@ -246,7 +246,6 @@ class Player:
         #
         #     if self.frame_index >= len(self.frames_cast): self.frame_index = 0
         #     self.image = self.frames_run[self.frame_index]
-        #
         else:
             if self.rect.height == 64:
                 self.frame_index = 0
