@@ -3,7 +3,7 @@ from src import config
 from src.core.physics import move_and_slide
 
 
-class Slime:
+class Frog:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 32, 32)
         self.velocity = pygame.Vector2(0, 0)
@@ -17,11 +17,11 @@ class Slime:
         self.animation_speed = 0.1  # Switch frame every 0.1 seconds
         self.is_grounded = False
 
-        self.load_sprites("assets/graphics/enemies/Slime-0001.png", frame_count=8)
+        self.load_sprites("assets/graphics/enemies/Frog001.png", frame_count=3)
         self.image = self.frames[0]
         self.debug_floor_sensor = None
         self.debug_wall_sensor = None
-        self.max_hp = 3
+        self.max_hp = 2
         self.current_hp = 2
 
     def load_sprites(self, path, frame_count):

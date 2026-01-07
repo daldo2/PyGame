@@ -12,6 +12,8 @@ def load_level(filename):
     hazards = []
     spawn_point = (0, 0)
     slime_spawns = []
+    frog_spawns = []
+
 
     # 2. Iterate through "Terrain" layer to create Walls
     # We look for the layer named 'Terrain'
@@ -42,6 +44,9 @@ def load_level(filename):
         elif obj.name == "SlimeStart":
             slime_spawns.append((obj.x, obj.y))
 
+        elif obj.name == "FrogStart":
+            frog_spawns.append((obj.x, obj.y))
+
 
     # Return the image of the map (visuals) and the physics (walls/spawn)
-    return tmx_data, walls,hazards, visuals, spawn_point, slime_spawns
+    return tmx_data, walls,hazards, visuals, spawn_point, slime_spawns, frog_spawns

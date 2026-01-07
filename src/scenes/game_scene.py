@@ -4,6 +4,7 @@ from src.entities.player import Player
 from src.core.level_loader import load_level
 from src.core.camera import Camera
 from src.entities.slime import Slime
+from src.entities.frog import Frog
 from src.core.ui import UI
 import math
 import random
@@ -23,6 +24,7 @@ class GameScene:
         self.visuals = data[3]
         spawn_point = data[4]
         slime_spawns = data[5]
+        frog_spawns = data[6]
 
         spawn_x, spawn_y = spawn_point
         self.projectiles = []
@@ -32,12 +34,12 @@ class GameScene:
         self.enemies = []
         for pos in slime_spawns:
             self.enemies.append(Slime(pos[0], pos[1]))
+        for pos in frog_spawns:
+            self.enemies.append(Frog(pos[0], pos[1]))
 
         path = "assets/graphics/tilesets/bloczek.png"
-        try:
-            self.block_img = pygame.image.load(path).convert()
-        except FileNotFoundError:
-            self.block_img = pygame.Surface((32, 32))
+        self.block_img = pygame.image.load(path).convert()
+
 
         map_width = self.tmx_data.width * config.TILE_SIZE
         map_height = self.tmx_data.height * config.TILE_SIZE
