@@ -209,6 +209,7 @@ class Player:
                     self.frame_index += 1
                 else:
                     self.is_casting = False
+                    self.frame_index = 0
 
             if self.frame_index >= len(self.frames_cast): self.frame_index = 0
             self.image = self.frames_cast[self.frame_index]

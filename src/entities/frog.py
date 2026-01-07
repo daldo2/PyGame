@@ -116,7 +116,7 @@ class Frog:
         # Configuration
         bar_width = 14
         bar_height = 2
-        offset_y = 12  # Distance above the slime's head
+        offset_y = 5  # Distance above the frog's head
         centering_offset = (self.rect.width - bar_width) // 2
 
         # Calculate Screen Position (World Pos + Camera Offset)

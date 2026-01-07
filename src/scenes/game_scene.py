@@ -37,7 +37,7 @@ class GameScene:
         for pos in frog_spawns:
             self.enemies.append(Frog(pos[0], pos[1]))
 
-        path = "assets/graphics/tilesets/bloczek.png"
+        path = "assets/graphics/tilesets/Grass-001.png"
         self.block_img = pygame.image.load(path).convert()
 
 
@@ -77,9 +77,6 @@ class GameScene:
             shake_x = 0.1 * random.randint(-intensity, intensity)
             shake_y = 0.1 * random.randint(-intensity, intensity)
             self.camera.offset.x += shake_x
-            walls = []
-            visuals = []
-            hazards = []
 
         # Update Enemies
         for enemy in self.enemies:
