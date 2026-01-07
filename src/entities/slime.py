@@ -14,7 +14,7 @@ class Slime:
         self.frames = []
         self.frame_index = 0
         self.animation_timer = 0
-        self.animation_speed = 0.1  # Switch frame every 0.1 seconds
+        self.animation_speed = 0.1
         self.is_grounded = False
 
         self.load_sprites("assets/graphics/enemies/Slime-0001.png", frame_count=8)
@@ -38,7 +38,6 @@ class Slime:
             # subsurface(x, y, width, height)
             frame = sheet.subsurface((i * frame_width, 0, frame_width, sheet_height))
 
-            # Scale it up (optional, e.g., to 32x32)
             scaled_frame = pygame.transform.scale(frame, (config.TILE_SIZE, config.TILE_SIZE))
             self.frames.append(scaled_frame)
 

@@ -70,6 +70,7 @@ class GameScene:
     def update(self, dt):
         self.player.update(dt, self.walls)
         self.camera.follow(self.player)
+        self.player.check_attack_hit(self.enemies)
 
         # Działa tylko wtedy, gdy gracz jest ogłuszony
         if self.player.stun_timer > 0:

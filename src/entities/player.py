@@ -22,6 +22,8 @@ class Player:
         self.possible_to_stand = False
         self.is_standing = False
         self.is_casting = False
+        self.is_attacking = False
+        self.damage_dealt = False
 
         self.double_jump_option = True
         self.fireball_option = True
@@ -42,6 +44,7 @@ class Player:
         self.frames_run = []
         self.frames_crouch = []
         self.frames_cast = []
+        self.frames_attack = []
 
         self.frame_index = 0
         self.animation_timer = 0
@@ -50,6 +53,7 @@ class Player:
         self.load_crouch_sprites("assets/graphics/player/crunching.png", 8)
         self.load_run_sprites("assets/graphics/player/running.png", 4)
         self.load_cast_sprites("assets/graphics/player/casting.png", 6)
+        self.load_attack_sprites("assets/graphics/player/attacking.png", 8)
         # Default image
         self.image = self.frames_crouch[0]
 
@@ -75,6 +79,16 @@ class Player:
             frame = sheet.subsurface((i * frame_width, 0, frame_width, frame_height))
             scaled_frame = pygame.transform.scale(frame, (32, 64))
             self.frames_run.append(scaled_frame)
+
+    def load_attack_sprites(self, path, frame_count):
+        sheet = pygame.image.load(path).convert_alpha()
+        frame_width = sheet.get_width() // frame_count
+        frame_height = sheet.get_height()
+
+        for i in range(frame_count):
+            frame = sheet.subsurface((i * frame_width, 0, frame_width, frame_height))
+            scaled_frame = pygame.transform.scale(frame, (64, 64))
+            self.frames_attack.append(scaled_frame)
 
     def load_cast_sprites(self, path, frame_count):
 
@@ -157,10 +171,17 @@ class Player:
                 self.is_crouching = False
                 self.stand_up()
 
-        if keys[pygame.K_v] and self.fireball_option and not self.is_casting:
-            self.fireball_ability.trigger()
-            self.is_casting = True
-            self.frame_index = 0
+        if self.possible_to_stand:
+
+            if keys[pygame.K_v] and self.fireball_option and not self.is_casting:
+                self.fireball_ability.trigger()
+                self.is_casting = True
+                self.frame_index = 0
+
+            if keys[pygame.K_x] and not self.is_attacking and not self.is_casting:
+                self.frame_index = 0
+                self.is_attacking = True
+
 
     def can_stand(self, dt, tiles):
         self.possible_to_stand = True
@@ -191,6 +212,25 @@ class Player:
     def jump(self):
         self.velocity.y = config.JUMP_FORCE
 
+    def check_attack_hit(self, enemies):
+
+        if self.is_attacking and self.frame_index == 5 and self.damage_dealt == False:
+            attack_rect = None
+
+            if self.facing_right:
+                attack_rect = pygame.Rect(self.rect.right, self.rect.y + 16, 32, 32)
+            else:
+                attack_rect = pygame.Rect(self.rect.left - 32, self.rect.y + 16, 32, 32)
+
+            for enemy in enemies:
+                if attack_rect.colliderect(enemy.rect):
+                    print("TRAFIONY!")
+                    enemy.current_hp -= 1
+                    self.damage_dealt = True
+
+                    enemy.velocity.x = 200 if self.facing_right else -200
+                    enemy.velocity.y = -200
+
     def take_damage(self, amount, source_rect):
         if self.invincible_timer <= 0:
             self.current_hp -= amount
@@ -208,7 +248,20 @@ class Player:
     def animate(self, dt):
         self.animation_timer += dt
 
-        if self.is_casting:
+        if self.is_attacking:
+            if self.animation_timer >= self.animation_speed:
+                self.animation_timer = 0
+                if self.frame_index < len(self.frames_attack) - 1:
+                    self.frame_index += 1
+                else:
+                    self.is_attacking = False
+                    self.damage_dealt = False
+                    self.frame_index = 0
+
+            if self.frame_index >= len(self.frames_attack): self.frame_index = 0
+            self.image = self.frames_attack[self.frame_index]
+
+        elif self.is_casting:
             if self.animation_timer >= self.animation_speed:
                 self.animation_timer = 0
                 if self.frame_index < len(self.frames_cast) - 1:
@@ -261,6 +314,11 @@ class Player:
 
     def draw(self, screen, offset):
         draw_pos = self.rect.topleft + offset
+
+        width_diff = self.image.get_width() - self.rect.width
+
+        if width_diff > 0 and not self.facing_right:
+            draw_pos.x -= width_diff
 
         if self.rect.height == 32:
             draw_pos.y -= 32
