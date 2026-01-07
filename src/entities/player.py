@@ -6,7 +6,6 @@ from src.abilities.fireball import Fireball
 class Player:
     def __init__(self, x, y, projectile_list):
         self.rect = pygame.Rect(x, y, config.TILE_SIZE, config.TILE_SIZE * 2)
-        # WIDTH = 1 block, HEIGHT = 2 blocks
         path = "assets/graphics/player/Wizard-0001.png"
         raw_image = pygame.image.load(path).convert_alpha()
         self.idle_image = pygame.transform.scale(raw_image, (32, 64))
@@ -14,6 +13,7 @@ class Player:
 
         self.velocity = pygame.Vector2(0, 0)
         self.speed = 200
+
         self.is_grounded = False
         self.facing_right = True
         self.jump_pressed = False
@@ -42,9 +42,11 @@ class Player:
         self.frames_run = []
         self.frames_crouch = []
         self.frames_cast = []
+
         self.frame_index = 0
         self.animation_timer = 0
         self.animation_speed = 0.08
+
         self.load_crouch_sprites("assets/graphics/player/crunching.png", 8)
         self.load_run_sprites("assets/graphics/player/running.png", 4)
         self.load_cast_sprites("assets/graphics/player/casting.png", 6)
@@ -59,7 +61,7 @@ class Player:
 
         for i in range(frame_count):
             frame = sheet.subsurface((i * frame_width, 0, frame_width, frame_height))
-            # Scale to player size (assuming 32x64 visual)
+            # Scale to player size
             scaled_frame = pygame.transform.scale(frame, (32, 64))
             self.frames_crouch.append(scaled_frame)
 
@@ -108,7 +110,7 @@ class Player:
 
         else:
             self.is_grounded = False
-         # Bonk head on ceiling
+
 
         if collisions['top']:
             self.velocity.y = 0
