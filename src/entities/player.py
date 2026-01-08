@@ -182,10 +182,9 @@ class Player:
                 self.frame_index = 0
                 self.is_attacking = True
 
-
     def can_stand(self, dt, tiles):
         self.possible_to_stand = True
-        top_rectangle = pygame.Rect(self.rect.x, self.rect.y - 32, 32, 32)
+        top_rectangle = pygame.Rect(self.rect.x, self.rect.y, 32, 32)
         for tile in tiles:
             if top_rectangle.colliderect(tile):
                 self.possible_to_stand = False
@@ -214,7 +213,7 @@ class Player:
 
     def check_attack_hit(self, enemies):
 
-        if self.is_attacking and self.frame_index == 5 and self.damage_dealt == False:
+        if self.is_attacking and self.frame_index == 3 and self.damage_dealt == False:
             attack_rect = None
 
             if self.facing_right:
@@ -224,11 +223,10 @@ class Player:
 
             for enemy in enemies:
                 if attack_rect.colliderect(enemy.rect):
-                    print("TRAFIONY!")
                     enemy.current_hp -= 1
                     self.damage_dealt = True
 
-                    enemy.velocity.x = 200 if self.facing_right else -200
+                    enemy.velocity.x = 400 if self.facing_right else -400
                     enemy.velocity.y = -200
 
     def take_damage(self, amount, source_rect):
@@ -249,7 +247,10 @@ class Player:
         self.animation_timer += dt
 
         if self.is_attacking:
-            if self.animation_timer >= self.animation_speed:
+
+            attack_speed = 0.035
+
+            if self.animation_timer >= attack_speed:
                 self.animation_timer = 0
                 if self.frame_index < len(self.frames_attack) - 1:
                     self.frame_index += 1
@@ -258,7 +259,8 @@ class Player:
                     self.damage_dealt = False
                     self.frame_index = 0
 
-            if self.frame_index >= len(self.frames_attack): self.frame_index = 0
+            if self.frame_index >= len(self.frames_attack):
+                self.frame_index = 0
             self.image = self.frames_attack[self.frame_index]
 
         elif self.is_casting:

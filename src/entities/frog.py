@@ -6,7 +6,7 @@ from src.core.physics import move_and_slide
 class Frog:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 32, 32)
-        self.velocity = pygame.Vector2(0, 0)
+        self.velocity = pygame.Vector2(0, 300)
         self.speed = 40
         self.direction = 1  # 1 = Right, -1 = Left
 
@@ -21,8 +21,8 @@ class Frog:
         self.image = self.frames[0]
         self.debug_floor_sensor = None
         self.debug_wall_sensor = None
-        self.max_hp = 2
-        self.current_hp = 2
+        self.max_hp = 3
+        self.current_hp = 3
 
     def load_sprites(self, path, frame_count):
 

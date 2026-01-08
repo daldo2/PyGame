@@ -39,13 +39,13 @@ def load_level(filename):
     objects = tmx_data.get_layer_by_name("Spawners")
     for obj in objects:
         if obj.name == "PlayerStart":
-            spawn_point = (obj.x, obj.y)
+            spawn_point = (obj.x, obj.y - 64)
 
         elif obj.name == "SlimeStart":
-            slime_spawns.append((obj.x, obj.y))
+            slime_spawns.append((obj.x, obj.y- 32))
 
         elif obj.name == "FrogStart":
-            frog_spawns.append((obj.x, obj.y))
+            frog_spawns.append((obj.x, obj.y -32))
 
 
     # Return the image of the map (visuals) and the physics (walls/spawn)

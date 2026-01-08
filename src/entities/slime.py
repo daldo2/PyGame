@@ -6,7 +6,7 @@ from src.core.physics import move_and_slide
 class Slime:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 32, 32)
-        self.velocity = pygame.Vector2(0, 0)
+        self.velocity = pygame.Vector2(0, -300)
         self.speed = 40
         self.direction = 1  # 1 = Right, -1 = Left
 
@@ -21,7 +21,7 @@ class Slime:
         self.image = self.frames[0]
         self.debug_floor_sensor = None
         self.debug_wall_sensor = None
-        self.max_hp = 3
+        self.max_hp = 2
         self.current_hp = 2
 
     def load_sprites(self, path, frame_count):
@@ -69,7 +69,7 @@ class Slime:
         offset_x = 20
         check_x = self.rect.centerx + (offset_x * self.direction)  # Dynamic direction check
 
-        floor_sensor = pygame.Rect(check_x, self.rect.bottom, 4, 4)  # Removed +2 gap to be tighter
+        floor_sensor = pygame.Rect(check_x, self.rect.bottom, 2, 2)  # Removed +2 gap to be tighter
 
         has_floor = False
         for tile in tiles:
